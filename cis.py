@@ -10,8 +10,7 @@ def powerMethod(A, iterations=20):
         v = v / np.linalg.norm(v)
         E.append(float(v.T * A * v))
 
-    print(E)
-    return E
+    return (E[-1],v)
 
 def main():
     A=np.matrix(np.random.rand(10, 10))

@@ -19,7 +19,7 @@ def hamiltonian(V,k,dx=None,dy=None):
         if i-k>=0:
             H[i,i-k]-=1/dy**2
         H[i,i]+=2/dx**2+2/dy**2+V(i,i,k,dx,dy)
-    return H
+    return H*const.hbar**2/2/const.m_e
 
 
 def nullPotential(i,j,k):
