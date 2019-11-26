@@ -1,27 +1,31 @@
 import numpy as np
 
 
-def powerMethod(A, iterations=20):
+def powerMethod(A, iterations=300):
     (m, n) = A.shape
-    v = np.matrix(np.random.rand(n, 1))
+    v = np.matrix(np.random.rand(n, 1)+np.random.rand(n, 1)*1j)
     E = []
-    for k in range(iterations):
+    for k in range(iterations-1):
         v = A * v
         v = v / np.linalg.norm(v)
-        E.append(float(v.T * A * v))
+        #E.append(float(v.T * A * v))
+    E1=complex(v.H * A * v)
+    v = A * v
+    v = v / np.linalg.norm(v)
+    E2=complex(v.H * A * v)
+    print('Absolute Error: '+str(E2-E1))
+    print('Relative Error: '+str(abs(E2-E1)/abs(E2)))
+    return (E2,v)
 
-    return (E[-1],v)
 
-def main():
-    A=np.matrix(np.random.rand(10, 10))
-    print(A)
-    powerMethod(A)
-
-
-if __name__ == '__main__':
-    main()
-
-#a=np.matrix(np.random.rand(3,3))
+def QReigenvalues(A, iterations=20, qr=np.linalg.qr, p=lambda x:x):
+    #(m, n) = A.shape
+    #Q = np.matrix(np.identity(n))
+    for k in range(iterations):
+        Q_k,R = qr(p(A))
+        A = R*Q_k
+        #Q = Q*Q_k
+    return A.diagonal()
 
 # function [Q,R]=B5_aufg3ii(A)
 # [m,n]=size(A);
@@ -77,7 +81,7 @@ def QR(A):
         R[k,k]=np.linalg.norm(q_aux)
         Q[0:m,k]=q_aux/R[k,k]
         
-    print(Q)
-    print('\n')
-    print(R)
+    #print(Q)
+    #print('\n')
+    #print(R)
     return (Q,R)
