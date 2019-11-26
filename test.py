@@ -36,8 +36,8 @@ def plotForOneValue(n,w,v):
     
 def testQR(k=60,i=32):
     H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/k,i*const.value('Bohr radius')/k)
-    E=cis.QReigenvalues(H)#, qr=cis.QR)
-    print(np.sort(E).T)
+    E=cis.QReigenvalues(H, qr=cis.QRhouseholder)
+    print((np.sort(E).T)[:8,0])
 
 if __name__ == '__main__':
-    check(60,16)
+    testQR(16,16)

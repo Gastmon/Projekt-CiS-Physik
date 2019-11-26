@@ -27,6 +27,27 @@ def QReigenvalues(A, iterations=20, qr=np.linalg.qr, p=lambda x:x):
         #Q = Q*Q_k
     return A.diagonal()
 
+def QRhouseholder(A):
+    (m,n) = A.shape
+    Q = np.matrix(np.identity(m))
+    R = np.matrix(np.zeros((m,n)))
+    I = np.matrix(np.identity(m))
+    t = min(m-1,n)
+    
+    for k in range(t):
+        x=A[k:,k]
+        alpha=np.sign(x[0,0])*np.linalg.norm(x)
+        if alpha==0:
+            print('Error in QRhouseholder: Pivot is 0')
+        u=x-alpha*I[k:,k]
+        v=u/np.linalg.norm(u)
+        Q_k=I.copy()
+        Q_k[k:,k:]=I[k:,k:]-2*v*v.H
+        A=Q_k*A
+        Q=Q*Q_k.T
+    
+    return Q,A
+
 # function [Q,R]=B5_aufg3ii(A)
 # [m,n]=size(A);
 # Q=zeros(m,n);
@@ -81,7 +102,4 @@ def QR(A):
         R[k,k]=np.linalg.norm(q_aux)
         Q[0:m,k]=q_aux/R[k,k]
         
-    #print(Q)
-    #print('\n')
-    #print(R)
     return (Q,R)
