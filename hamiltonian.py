@@ -1,13 +1,17 @@
 import numpy as np
 import scipy.constants as const
+import scipy.sparse as sp
 
-def hamiltonian(V,k,dx=None,dy=None):
+def hamiltonian(V,k,dx=None,dy=None,sparse=False):
     if dx==None:
         dx = 32*const.value('Bohr radius')/k
     if dy==None:
         dy = 32*const.value('Bohr radius')/k
         
-    H = np.matrix(np.zeros((k**2,k**2)))
+    if sparse:
+        H = sp.lil_matrix((k**2,k**2))
+    else:
+        H = np.matrix(np.zeros((k**2,k**2)))
     
     for i in range(k**2):
         if i%k!=k-1:
@@ -19,7 +23,13 @@ def hamiltonian(V,k,dx=None,dy=None):
         if i-k>=0:
             H[i,i-k]-=1/dy**2
         H[i,i]+=2/dx**2+2/dy**2+V(i,i,k,dx,dy)
-    return H*const.hbar**2/2/const.m_e
+        
+    H=H*const.hbar**2/2/const.m_e
+    
+    if sparse:
+        return H.tocsc()
+    else:
+        return H
 
 
 def nullPotential(i,j,k):

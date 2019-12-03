@@ -19,13 +19,13 @@ def powerMethod(A, iterations=300):
 
 
 def QReigenvalues(A, iterations=20, qr=np.linalg.qr, p=lambda x:x):
-    #(m, n) = A.shape
-    #Q = np.matrix(np.identity(n))
+    (m, n) = A.shape
+    Q = np.matrix(np.identity(n))
     for k in range(iterations):
         Q_k,R = qr(p(A))
         A = R*Q_k
-        #Q = Q*Q_k
-    return A.diagonal()
+        Q = Q*Q_k#Q*D*Q.T=A
+    return A.diagonal(),Q
 
 def QRhouseholder(A):
     (m,n) = A.shape
