@@ -1,24 +1,34 @@
 import numpy as np
 import scipy.sparse as sp
 
-
-def powerMethod(A, iterations=300):
+#The power method repeatedly multiplies the matrix with a vector so that it converges to the eigenvector corresponding to the biggest eigenvalue
+#args: A quadratic matrix
+#      iterations max number of iterations - 1, negative iterations terminate only by precision
+#      rtol relative tolerance
+#      atol relative tolerance
+#rets: E biggest eigenvalue of A
+#      v corresponding normalized eigenvector
+def powerMethod(A, iterations=-1, rtol=1.1102230246251565e-16, atol=1.1102230246251565e-16):
     (m, n) = A.shape
     v = np.matrix(np.random.rand(n, 1)+np.random.rand(n, 1)*1j)
-    E = []
-    for k in range(iterations-1):
-        v = A * v
-        v = v / np.linalg.norm(v)
-        #E.append(float(v.T * A * v))
+    k = 0
+    while(k!=iterations):
+        k += 1
+        E = complex(v.H * A * v)
+        temp = A * v
+        if np.allclose(temp, E*v, rtol=rtol, atol=atol):
+            return E, temp / np.linalg.norm(temp)
+        v = temp / np.linalg.norm(temp)
     E1=complex(v.H * A * v)
     v = A * v
     v = v / np.linalg.norm(v)
     E2=complex(v.H * A * v)
-    print('Absolute Error: '+str(E2-E1))
+    print('Absolute Error: '+str(abs(E2-E1)))
     print('Relative Error: '+str(abs(E2-E1)/abs(E2)))
     return (E2,v)
 
 
+#TODO precision termination and sorting
 def QReigenvalues(A, iterations=20, qr=np.linalg.qr, p=lambda x:x):
     (m, n) = A.shape
     Q = np.matrix(np.identity(n))
@@ -28,6 +38,10 @@ def QReigenvalues(A, iterations=20, qr=np.linalg.qr, p=lambda x:x):
         Q = Q*Q_k#Q*D*Q.T=A
     return A.diagonal(),Q
 
+#QR-decomposition utilizing householder reflexions with Q*R=A
+#args: A quadratic matrix
+#rets: Q orthogonal matrix
+#      A upper-right matrix
 def QRhouseholder(A):
     (m,n) = A.shape
     Q = np.matrix(np.identity(m))
@@ -49,6 +63,8 @@ def QRhouseholder(A):
     
     return Q,A
 
+#Original Jacobi-algorithm
+#TODO precision termination and sorting
 def originalJacobiAlgorithm(A,iterations):
     (m,n) = A.shape
     V = sp.identity(m).tocsc()
@@ -56,6 +72,8 @@ def originalJacobiAlgorithm(A,iterations):
         A,V = jacobiStepMatrix(A,V)
     return A.diagonal().T,V
 
+#Cyclic Jacobi-algorithm
+#TODO precision termination and sorting
 def cyclicJacobiAlgorithm(A,iterations):
     (m,n) = A.shape
     V = np.matrix(np.identity(m))
@@ -65,8 +83,16 @@ def cyclicJacobiAlgorithm(A,iterations):
                 A,V = jacobiStepIndex(A,V,p,q)
     return A.diagonal().T,V
 
-def jacobiStepIndex(A,V,p,q):
+#One Jacobi-step implemented by changing matrix entries directly through indexing
+#args: A matrix converging into diagonal form
+#      V matrix converging into eigenvectors
+#      p,q indexes for jacobi rotation
+#rets: a A after iteration
+#      v V after iteration
+def jacobiStepIndex(A,V,p=None,q=None):
     (m,n) = A.shape
+    if p==None or q==None:
+        p,q = getMaxPivot(A)
     if sp.isspmatrix(A) and not sp.isspmatrix_lil(A):
         a=A.tolil()
     else:
@@ -98,6 +124,12 @@ def jacobiStepIndex(A,V,p,q):
     
     return a,v
 
+#One jacobi-step implemented by constructing the rotation matrix
+#args: A matrix converging into diagonal form
+#      V matrix converging into eigenvectors
+#      p,q indexes for jacobi rotation
+#rets: a A after iteration
+#      v V after iteration
 def jacobiStepMatrix(A,V,p=None,q=None):
     (m,n) = A.shape
     if p==None or q==None:
@@ -118,6 +150,9 @@ def jacobiStepMatrix(A,V,p=None,q=None):
     A = P.T*A*P
     return A,V*P
     
+#Finds the biggest off-diagonal element and returns its indexes p and q
+#args: a matrix
+#rets: p,q indexes
 def getMaxPivot(a):
     (m,n) = a.shape
     A=abs(a)
