@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.sparse as sp
+import math
 
 #The power method repeatedly multiplies the matrix with a vector so that it converges to the eigenvector corresponding to the biggest eigenvalue
 #args: A quadratic matrix
@@ -218,3 +219,41 @@ def signCount(a,b):
         #print(p)
         return count
     return fun
+    
+def tridiagonalGivensRotation(A):
+    skips=0
+    steps=0
+    (m,n) = A.shape
+    V = sp.identity(m).tocsc()
+    for k in range(m-1):
+        for j in range(k+2,m):
+            a = A[k+1,k]
+            b = A[j,k]
+            steps+=1
+            if b != 0:
+                r = math.hypot(a,b)
+                c = a/r
+                s = -b/r
+                Q = sp.identity(m).tolil()
+                Q[k+1,k+1] = c
+                Q[j,j] = c
+                Q[j,k+1] = s
+                Q[k+1,j] = -s
+                Q = Q.tocsc()
+                A = Q*A*Q.T
+                #print(np.trunc(A.toarray()*10**24))
+                V = Q*V
+            else:
+                skips+=1
+    print(skips)
+    print(steps)
+    return A,V
+        
+
+
+
+
+
+
+
+

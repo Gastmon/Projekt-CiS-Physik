@@ -24,7 +24,7 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
             H[i,i-k]-=1/dy**2
         H[i,i]+=2/dx**2+2/dy**2+V(i,i,k,dx,dy)
         
-    H=H*const.hbar**2/2/const.m_e
+    H=H*const.hbar**2/2/const.m_e/const.eV
     
     if sparse:
         return H.tocsc()
@@ -32,7 +32,7 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
         return H
 
 
-def nullPotential(i,j,k):
+def nullPotential(i,j,k,dx,dy):
     return 0
 
 def coloumbPotential(i,j,k,dx,dy):
