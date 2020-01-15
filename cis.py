@@ -249,7 +249,26 @@ def tridiagonalGivensRotation(A):
     print(steps)
     return A,V
         
-
+def lanczosWiki(A):
+    (m,n) = A.shape
+    v = np.matrix(np.random.rand(m,1))
+    v = v/np.linalg.norm(v)
+    w = A*v
+    a = [float(w.T*v)]
+    b = []
+    w = w - a[-1]*v
+    for j in range(1,m):
+        b.append(np.linalg.norm(w))
+        if b!=0:
+            u=w/b[-1]
+        else:#Please don't happen
+            print('It happened')
+            return
+        w = A*u
+        a.append(float(w.T*u))
+        w = w-a[-1]*u-b[-1]*v
+        v=u
+    return a,b
 
 
 
