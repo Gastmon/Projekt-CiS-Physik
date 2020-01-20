@@ -287,7 +287,7 @@ def tridiagonalGivensRotation(A):
 def lanczos(A,k=0):
     (m,n) = A.shape
     if k < 2:
-        k=m**0.5
+        k=int(m**0.5)
     v = np.matrix(np.random.rand(m,1))
     v = v/np.linalg.norm(v)
     w = A*v

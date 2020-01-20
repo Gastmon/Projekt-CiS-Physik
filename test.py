@@ -5,6 +5,7 @@ import scipy.constants as const
 import scipy.sparse.linalg as splinalg
 import numpy as np
 import time
+import sys
 
 def scatter(k):
     H=ham.hamiltonian(ham.coloumbPotential,k)
@@ -23,7 +24,8 @@ def contour(k,i=1):
     #plotter.plotMatrix(ham.vectorToMatrix(H.diagonal().T))
     return v
     
-def check(k=60,i=32,sparse=False,numOfEV=6):
+def check(k=60,i=32,sparse=False,numOfEV=6,plot=False):
+    print('check(k='+str(k)+', i='+str(i)+', sparse='+str(sparse)+', numOfEV='+str(numOfEV)+')')#,file=sys.stderr)
     H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/k,i*const.value('Bohr radius')/k,sparse)
     
     if sparse:
@@ -32,11 +34,15 @@ def check(k=60,i=32,sparse=False,numOfEV=6):
         w,v=np.linalg.eigh(H)
     
     for n in range(numOfEV):
-        plotForOneValue(n,w[n],v[:,n])
+        if plot:
+            plotForOneValue(n,w[n],v[:,n])
+        else:
+            plotForOneValue(n,w[n])
     
-def plotForOneValue(n,E_n,v_n):
-    print('n: '+str(n)+'\tE_n(J): '+str(E_n)+'\tE_n(eV): '+str(E_n/const.eV))
-    #plotter.plotMatrix(ham.vectorToMatrix(v_n))
+def plotForOneValue(n,E_n,v_n=None):
+    print('n: '+str(n)+'\tE_n(J): '+str(E_n*const.eV)+'\tE_n(eV): '+str(E_n))#,file=sys.stderr)
+    if v_n is not None:
+        plotter.plotMatrix(ham.vectorToMatrix(v_n))
     
 def testQR(k=60,i=32):
     H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/k,i*const.value('Bohr radius')/k)
@@ -64,23 +70,25 @@ def testJacobi(k,i):
     for n in range(6):
         plotForOneValue(n,float(w[n]),v[:,n])
     
-def testTridiagonalBisection(k=60,i=32):
+def testTridiagonalBisection(k=60,i=32,m=0):
     H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/k,i*const.value('Bohr radius')/k,True)
-    a=H.diagonal()
-    b=H.diagonal(k=1)
+    a,b = cis.lanczos(H)
     eps=1.0
     while(1+eps!=1):
         eps/=2#eps=1.1102230246251565e-16
     c=cis.signCount(a,b)
-    v=cis.countBisection(c,-10**0,0,eps,len(a),0)
-    print(v)
+    E=cis.countBisection(c,-10**4,0,eps,len(a),0)[0]
+    plotForOneValue(0,E)
     
 
 if __name__ == '__main__':
+    t1=time.time()
+    check(16,16,True,1)
     t0=time.time()
+    print('Time needed: '+str(t0-t1))#,file=sys.stderr)
     #testQR(16,32)
-    check(256,16,True,1)
-    testTridiagonalBisection(256,16)
+    testTridiagonalBisection(16,16,20)
+    #testTridiagonalBisection(256,16)
     #testJacobi(10,16)
     #print('testJacobi(10,16) with 16000 iterations')
     #check(20,16)
@@ -88,5 +96,5 @@ if __name__ == '__main__':
     #print('testQR(10,16)')
     t1=time.time()
     #check(10,16)
-    print('Time needed: '+str(t1-t0))
+    print('Time needed: '+str(t1-t0))#,file=sys.stderr)
     
