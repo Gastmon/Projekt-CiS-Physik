@@ -1,5 +1,6 @@
 import numpy as np
 import scipy.sparse as sp
+import scipy.sparse.linalg as splinalg
 import math
 
 #The power method repeatedly multiplies the matrix with a vector so that it converges to the eigenvector corresponding to the biggest eigenvalue
@@ -12,11 +13,33 @@ import math
 def powerMethod(A, iterations=-1, rtol=1.1102230246251565e-16, atol=1.1102230246251565e-16):
     (m, n) = A.shape
     v = np.matrix(np.random.rand(n, 1)+np.random.rand(n, 1)*1j)
+    v = v/np.linalg.norm(v)
     k = 0
     while(k!=iterations):
         k += 1
         E = complex(v.H * A * v)
         temp = A * v
+        if np.allclose(temp, E*v, rtol=rtol, atol=atol):
+            return E, temp / np.linalg.norm(temp)
+        v = temp / np.linalg.norm(temp)
+    E1=complex(v.H * A * v)
+    v = A * v
+    v = v / np.linalg.norm(v)
+    E2=complex(v.H * A * v)
+    print('Absolute Error: '+str(abs(E2-E1)))
+    print('Relative Error: '+str(abs(E2-E1)/abs(E2)))
+    return (E2,v)
+    
+def inversePowerMethod(A, alpha, iterations=-1, rtol=1.1102230246251565e-16, atol=1.1102230246251565e-16):
+    (m, n) = A.shape
+    v = np.matrix(np.random.rand(n, 1))#+np.random.rand(n, 1)*1j)
+    v = v/np.linalg.norm(v)
+    k = 0
+    while(k!=iterations):
+        k += 1
+        #print(k)
+        E = float(v.T * A * v)
+        temp = np.matrix(splinalg.spsolve(A-alpha*sp.identity(m),v)).T
         if np.allclose(temp, E*v, rtol=rtol, atol=atol):
             return E, temp / np.linalg.norm(temp)
         v = temp / np.linalg.norm(temp)
@@ -202,6 +225,12 @@ def polynomialGenerator(a,b,n=None):
         p=[1, a[0]-x]
         for r in range(2,n+1):
             p.append((a[r-1]-x)*p[r-1]-b[r-2]**2*p[r-2])
+            if abs(p[-1])>10**100 and abs(p[-2])>10*100:
+                p[-1]=p[-1]/10**100
+                p[-2]=p[-2]/10**100
+            if abs(p[-1])<10**-100 and abs(p[-2])<10*-100:
+                p[-1]=p[-1]/10**-100
+                p[-2]=p[-2]/10**-100
         return p[-1]
     return fun
     
@@ -211,6 +240,12 @@ def signCount(a,b):
         count=0
         for r in range(2,len(a)+1):
             p.append((a[r-1]-x)*p[r-1]-b[r-2]**2*p[r-2])
+            if abs(p[-1])>10**100 and abs(p[-2])>10*100:
+                p[-1]=p[-1]/10**100
+                p[-2]=p[-2]/10**100
+            if abs(p[-1])<10**-100 and abs(p[-2])<10*-100:
+                p[-1]=p[-1]/10**-100
+                p[-2]=p[-2]/10**-100
         for r in range(1,len(a)+1):
             if np.sign(p[r])==0:
                 count+=1
@@ -249,15 +284,17 @@ def tridiagonalGivensRotation(A):
     print(steps)
     return A,V
         
-def lanczosWiki(A):
+def lanczos(A,k=0):
     (m,n) = A.shape
+    if k < 2:
+        k=m**0.5
     v = np.matrix(np.random.rand(m,1))
     v = v/np.linalg.norm(v)
     w = A*v
     a = [float(w.T*v)]
     b = []
     w = w - a[-1]*v
-    for j in range(1,m):
+    for j in range(1,k):
         b.append(np.linalg.norm(w))
         if b!=0:
             u=w/b[-1]
@@ -267,7 +304,7 @@ def lanczosWiki(A):
         w = A*u
         a.append(float(w.T*u))
         w = w-a[-1]*u-b[-1]*v
-        v=u
+        v=u#v is q_{j-1}, u is q_j
     return a,b
 
 
