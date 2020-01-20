@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.constants as const
 import scipy.sparse as sp
+import math
 
 def hamiltonian(V,k,dx=None,dy=None,sparse=False):
     if dx==None:
@@ -22,7 +23,11 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
             H[i,i+k]-=1/dy**2
         if i-k>=0:
             H[i,i-k]-=1/dy**2
-        H[i,i]+=2/dx**2+2/dy**2+V(i,i,k,dx,dy)
+        m = i%k
+        n = i//k
+        x = (m-k/2+1/2)*dx
+        y = (n-k/2+1/2)*dy
+        H[i,i]+=2/dx**2+2/dy**2+V(x,y)
         
     H=H*const.hbar**2/2/const.m_e/const.eV
     
@@ -32,18 +37,57 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
         return H
 
 
-def nullPotential(i,j,k,dx,dy):
+def nullPotential(x,y):
     return 0
 
-def coloumbPotential(i,j,k,dx,dy):
-    m = i%k
-    n = i//k
-    x0 = (k/2-1/2)*dx
-    y0 = (k/2-1/2)*dy
-    r = ((m*dx-x0)**2+(n*dy-y0)**2)**0.5
+def coloumbPotential(x,y):
+    r = math.hypot(x,y)
     return -2*const.m_e/const.hbar**2/(4*const.pi*const.epsilon_0)*const.e**2/r
 
-
+def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
+    if dxDist==None:
+        dxDist = uniformCumulativeDistribution(i*const.value('Bohr radius')/k,k/2-1/2)
+    else:
+        dxDist = dxDist(i*const.value('Bohr radius')/k)
+    if dyDist==None:
+        dyDist = uniformCumulativeDistribution(i*const.value('Bohr radius')/k,k/2-1/2)
+    else:
+        dyDist = dy(i*const.value('Bohr radius')/k)
+        
+    if sparse:
+        H = sp.lil_matrix((k**2,k**2))
+    else:
+        H = np.matrix(np.zeros((k**2,k**2)))
+    
+    for i in range(k**2):
+        dxr = dxDist(i%k+1)-dxDist(i%k)
+        dxl = dxDist(i%k)-dxDist(i%k-1)
+        dxg = (dxl+dxr)/2
+        dyr = dyDist(i//k+1)-dyDist(i//k)
+        dyl = dyDist(i//k)-dyDist(i//k-1)
+        dyg = (dxl+dxr)/2
+        if i%k!=k-1:
+            H[i,i+1]-=1/dxr/dxg
+        if i%k!=0:
+            H[i,i-1]-=1/dxl/dxg
+        if i+k<k**2:
+            H[i,i+k]-=1/dyr/dyg
+        if i-k>=0:
+            H[i,i-k]-=1/dyl/dyg
+        
+        H[i,i]+=1/dxl/dxg+1/dxr/dxg+1/dyl/dyg+1/dyr/dyg+V(dxDist(i%k),dyDist(i//k))
+    
+    H=H*const.hbar**2/2/const.m_e/const.eV
+    
+    if sparse:
+        return H.tocsc()
+    else:
+        return H
+    
+def uniformCumulativeDistribution(dx, offset=0):
+    def fun(i):
+        return (i-offset)*dx
+    return fun
 
 def vectorToMatrix(v):
     k = int(v.size**0.5)
