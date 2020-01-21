@@ -46,13 +46,13 @@ def coloumbPotential(x,y):
 
 def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
     if dxDist==None:
-        dxDist = uniformCumulativeDistribution(i*const.value('Bohr radius')/k,k/2-1/2)
+        dxDist = uniformCumulativeDistribution(i*const.value('Bohr radius'),k/2-1/2)
     else:
-        dxDist = dxDist(i*const.value('Bohr radius')/k)
+        dxDist = dxDist(i*const.value('Bohr radius'),k/2-1/2)
     if dyDist==None:
-        dyDist = uniformCumulativeDistribution(i*const.value('Bohr radius')/k,k/2-1/2)
+        dyDist = uniformCumulativeDistribution(i*const.value('Bohr radius'),k/2-1/2)
     else:
-        dyDist = dy(i*const.value('Bohr radius')/k)
+        dyDist = dyDist(i*const.value('Bohr radius'),k/2-1/2)
         
     if sparse:
         H = sp.lil_matrix((k**2,k**2))
@@ -65,7 +65,7 @@ def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
         dxg = (dxl+dxr)/2
         dyr = dyDist(i//k+1)-dyDist(i//k)
         dyl = dyDist(i//k)-dyDist(i//k-1)
-        dyg = (dxl+dxr)/2
+        dyg = (dyl+dyr)/2
         if i%k!=k-1:
             H[i,i+1]-=1/dxr/dxg
         if i%k!=0:
@@ -84,10 +84,34 @@ def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
     else:
         return H
     
-def uniformCumulativeDistribution(dx, offset=0):
+def uniformCumulativeDistribution(boundary,offset=0):
+    gmax=0-offset
     def fun(i):
-        return (i-offset)*dx
+        return (i-offset)/gmax*boundary
     return fun
+
+#integral of 1/(1-tanh^2(x))-1
+#f'(0)=0 is problematic (maybe)
+def cubicOrderSinusHyperbolicus(boundary,offset=0):
+    #z=inverse(lambda i: 1/4*(np.sinh(2*(i-offset))-2*(i-offset)),boundary)
+    gmax=-1/4*np.sinh(2*(0-offset))-0.5*(0-offset)
+    def fun(i):
+        return (1/4*np.sinh(2*(i-offset))-0.5*(i-offset))/gmax*boundary
+    return fun
+
+def inverse(g,b,eps=1.1102230246251565e-16):
+    y=0.
+    z=1.
+    while g(z)<b:
+        z*=2
+    
+    while abs(y-z)>eps*(abs(y)+abs(z)):
+        x=(y+z)/2
+        if g(x)<b:
+            y=x
+        else:
+            z=x
+    return (y+z)/2
 
 def vectorToMatrix(v):
     k = int(v.size**0.5)
