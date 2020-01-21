@@ -44,15 +44,29 @@ def coloumbPotential(x,y):
     r = math.hypot(x,y)
     return -2*const.m_e/const.hbar**2/(4*const.pi*const.epsilon_0)*const.e**2/r
 
-def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
-    if dxDist==None:
-        dxDist = uniformCumulativeDistribution(i*const.value('Bohr radius'),k/2-1/2)
-    else:
-        dxDist = dxDist(i*const.value('Bohr radius'),k/2-1/2)
-    if dyDist==None:
-        dyDist = uniformCumulativeDistribution(i*const.value('Bohr radius'),k/2-1/2)
-    else:
-        dyDist = dyDist(i*const.value('Bohr radius'),k/2-1/2)
+
+def cumulativeDistributionGenerator(f,boundary,offset=0):
+    gmax=-f(0-offset)
+    def fun(i):
+        return f(i-offset)/gmax*boundary
+    return fun
+    
+#integral of f(x)=1/(1-tanh^2(x))-1
+#f'(0)=0 is problematic (maybe)
+def cubicOrderSinusHyperbolicus(x):
+    return 1/4*np.sinh(2*x)-0.5*x
+    
+#integral of f(x)=1    
+def linear(x):
+    return x
+  
+#integral of f(x)=x**2+1000
+def cubic(x):
+    return 1/3*x**3+1000*x
+
+def hamiltonianWithDistribution(V,k,i,dxDist=linear,dyDist=linear,sparse=False):
+    dxDist = cumulativeDistributionGenerator(dxDist, i*const.value('Bohr radius'), k/2-1/2)
+    dyDist = cumulativeDistributionGenerator(dyDist, i*const.value('Bohr radius'), k/2-1/2)
         
     if sparse:
         H = sp.lil_matrix((k**2,k**2))
@@ -83,21 +97,6 @@ def hamiltonianWithDistribution(V,k,i,dxDist=None,dyDist=None,sparse=False):
         return H.tocsc()
     else:
         return H
-    
-def uniformCumulativeDistribution(boundary,offset=0):
-    gmax=0-offset
-    def fun(i):
-        return (i-offset)/gmax*boundary
-    return fun
-
-#integral of 1/(1-tanh^2(x))-1
-#f'(0)=0 is problematic (maybe)
-def cubicOrderSinusHyperbolicus(boundary,offset=0):
-    #z=inverse(lambda i: 1/4*(np.sinh(2*(i-offset))-2*(i-offset)),boundary)
-    gmax=-1/4*np.sinh(2*(0-offset))-0.5*(0-offset)
-    def fun(i):
-        return (1/4*np.sinh(2*(i-offset))-0.5*(i-offset))/gmax*boundary
-    return fun
 
 def inverse(g,b,eps=1.1102230246251565e-16):
     y=0.
