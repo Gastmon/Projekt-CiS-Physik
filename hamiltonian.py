@@ -37,16 +37,22 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
         return H
 
 
-def nullPotential(x,y):
+def nullPotential(x,y,radial=False):
     return 0
 
-def coloumbPotential(x,y):
-    r = math.hypot(x,y)
+def coloumbPotential(x,y,radial=False):
+    if radial:
+        r=x
+    else:
+        r = math.hypot(x,y)
     return -2*const.m_e/const.hbar**2/(4*const.pi*const.epsilon_0)*const.e**2/r
 
 
-def cumulativeDistributionGenerator(f,boundary,offset=0):
-    gmax=-f(0-offset)
+def cumulativeDistributionGenerator(f,boundary,offset=0,maxInput=None):
+    if maxInput==None:
+        gmax=-f(0-offset)
+    else:
+        gmax=f(maxInput-offset)
     def fun(i):
         return f(i-offset)/gmax*boundary
     return fun
@@ -65,8 +71,8 @@ def cubic(x):
     return 1/3*x**3+1000*x
 
 def hamiltonianWithDistribution(V,k,i,dxDist=linear,dyDist=linear,sparse=False):
-    dxDist = cumulativeDistributionGenerator(dxDist, i*const.value('Bohr radius'), k/2-1/2)
-    dyDist = cumulativeDistributionGenerator(dyDist, i*const.value('Bohr radius'), k/2-1/2)
+    dxDist = cumulativeDistributionGenerator(dxDist, i/2*const.value('Bohr radius'), k/2-1/2)
+    dyDist = cumulativeDistributionGenerator(dyDist, i/2*const.value('Bohr radius'), k/2-1/2)
         
     if sparse:
         H = sp.lil_matrix((k**2,k**2))
@@ -97,6 +103,44 @@ def hamiltonianWithDistribution(V,k,i,dxDist=linear,dyDist=linear,sparse=False):
         return H.tocsc()
     else:
         return H
+
+def polarHamiltonianWithDistribution(V,kr,kphi,i,drDist=linear,sparse=False):
+    drDist = cumulativeDistributionGenerator(drDist, i*const.value('Bohr radius'), -10**-6, kr-1)
+    dphiDist = cumulativeDistributionGenerator(dphiDist, 2*math.pi, 0, kphi)
+    dphi = dphiDist(1)-dphiDist(0)
+    
+    size = kr*kphi
+    if sparse:
+        H = sp.lil_matrix((size,size))
+    else:
+        H = np.matrix(np.zeros((size,size)))
+    
+    for i in range(size):
+        m = i%kphi
+        n = i//kr
+        drl=drDist(n+1)-drDist(n)
+        drr=drDist(n+2)-drDist(n+1)
+        if m!=kphi-1:
+            H[i,i+1]-=1/dphi**2/drDist(n)**2
+        else:
+            H[i,i-kphi+1]-=1/dphi**2/drDist(n)**2
+        if m!=0:
+            H[i,i-1]-=1/dphi**2/drDist(n)**2
+        else:
+            H[i,i+kphi-1]-=1/dphi**2/drDist(n)**2
+        if i+kr<size:
+            H[i,i+kr]-=1/drl/drr+1/drl**2+1/drl/drDist(n)
+        if i+2*kr<size:
+            H[i,i+2*kr]-=-1/drl/drr
+        
+        H[i,i]+=1/drl**2+1/drl/drDist(n)+2/dphi**2/drDist(n)**2 +V(drDist(n),dphiDist(m),radial=True)
+        
+    H=H*const.hbar**2/2/const.m_e/const.eV
+    if sparse:
+        return H.tocsc()
+    else:
+        return H
+    
 
 def inverse(g,b,eps=1.1102230246251565e-16):
     y=0.

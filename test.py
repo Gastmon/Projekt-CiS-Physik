@@ -80,21 +80,37 @@ def testTridiagonalBisection(k=60,i=32,m=0):
     E=cis.countBisection(c,-10**4,0,eps,len(a),0)[0]
     plotForOneValue(0,E)
     
+def testDistHamiltonian(k=16,i=16,sparse=True,numOfEV=6,plot=False,dist=ham.linear):
+    print('testDistHamiltonian(k='+str(k)+', i='+str(i)+', sparse='+str(sparse)+', numOfEV='+str(numOfEV)+')')#,file=sys.stderr)
+    H=ham.hamiltonianWithDistribution(ham.coloumbPotential,k,i,dist,dist,sparse=sparse)
+    
+    if sparse:
+        w,v=splinalg.eigsh(H,k=numOfEV,which='SA')
+    else:
+        w,v=np.linalg.eigh(H)
+    
+    for n in range(numOfEV):
+        if plot:
+            plotForOneValue(n,w[n],v[:,n])
+        else:
+            plotForOneValue(n,w[n])
+    
 
 if __name__ == '__main__':
-    t1=time.time()
-    check(16,16,True,1)
+    #t1=time.time()
+    #check(16,16,True,1)
     t0=time.time()
-    print('Time needed: '+str(t0-t1))#,file=sys.stderr)
+    #print('Time needed: '+str(t0-t1))#,file=sys.stderr)
     #testQR(16,32)
-    testTridiagonalBisection(16,16,20)
+    #testTridiagonalBisection(16,16,20)
     #testTridiagonalBisection(256,16)
     #testJacobi(10,16)
     #print('testJacobi(10,16) with 16000 iterations')
     #check(20,16)
     #testQR(10,16)
     #print('testQR(10,16)')
+    testDistHamiltonian(k=256,i=128,dist=ham.cubic)
     t1=time.time()
-    #check(10,16)
+    #check(16,16)
     print('Time needed: '+str(t1-t0))#,file=sys.stderr)
     
