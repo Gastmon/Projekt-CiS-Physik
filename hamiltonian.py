@@ -5,10 +5,10 @@ import math
 
 def hamiltonian(V,k,dx=None,dy=None,sparse=False):
     if dx==None:
-        dx = 16*const.value('Bohr radius')/k
+        dx = 16*const.value('Bohr radius')/(k-1)
     if dy==None:
-        dy = 16*const.value('Bohr radius')/k
-        
+        dy = 16*const.value('Bohr radius')/(k-1)
+       
     if sparse:
         H = sp.lil_matrix((k**2,k**2))
     else:

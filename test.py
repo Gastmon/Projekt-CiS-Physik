@@ -26,7 +26,7 @@ def contour(k,i=1):
     
 def check(k=60,i=32,sparse=False,numOfEV=6,plot=False):
     print('check(k='+str(k)+', i='+str(i)+', sparse='+str(sparse)+', numOfEV='+str(numOfEV)+')')#,file=sys.stderr)
-    H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/k,i*const.value('Bohr radius')/k,sparse)
+    H=ham.hamiltonian(ham.coloumbPotential,k,i*const.value('Bohr radius')/(k-1),i*const.value('Bohr radius')/(k-1),sparse)
     
     if sparse:
         w,v=splinalg.eigsh(H,k=numOfEV,which='SA')
@@ -79,6 +79,21 @@ def testTridiagonalBisection(k=60,i=32,m=0):
     c=cis.signCount(a,b)
     E=cis.countBisection(c,-10**4,0,eps,len(a),0)[0]
     plotForOneValue(0,E)
+
+def testTriBiInv(k=60,i=32,m=0,numOfEV=1,plot=False,dist=ham.linear):
+    H=ham.hamiltonianWithDistribution(ham.coloumbPotential,k,i,dist,dist,sparse=True)
+    
+    m=k
+    a,b = cis.lanczos(H,m)
+    eps=1.0
+    while(1+eps!=1):
+        eps/=2#eps=1.1102230246251565e-16
+    c=cis.signCount(a,b)
+    E=cis.countBisection(c,-10**4,0,eps,len(a),0)[0]
+    plotForOneValue(0,E)
+    E,v=cis.inversePowerMethod(H,E,15)
+    plotForOneValue(0,E)
+    
     
 def testDistHamiltonian(k=16,i=16,sparse=True,numOfEV=6,plot=False,dist=ham.linear):
     print('testDistHamiltonian(k='+str(k)+', i='+str(i)+', sparse='+str(sparse)+', numOfEV='+str(numOfEV)+')')#,file=sys.stderr)
@@ -97,19 +112,19 @@ def testDistHamiltonian(k=16,i=16,sparse=True,numOfEV=6,plot=False,dist=ham.line
     
 
 if __name__ == '__main__':
-    #t1=time.time()
-    #check(16,16,True,1)
+    t1=time.time()
+    #check(512,16,True,1,plot=False)
     t0=time.time()
-    #print('Time needed: '+str(t0-t1))#,file=sys.stderr)
+    print('Time needed: '+str(t0-t1))#,file=sys.stderr)
     #testQR(16,32)
-    #testTridiagonalBisection(16,16,20)
     #testTridiagonalBisection(256,16)
     #testJacobi(10,16)
     #print('testJacobi(10,16) with 16000 iterations')
-    #check(20,16)
+    #check(128,16,True)
     #testQR(10,16)
     #print('testQR(10,16)')
-    testDistHamiltonian(k=256,i=128,dist=ham.cubic)
+    #testDistHamiltonian(k=64,i=16,dist=ham.cubicOrderSinusHyperbolicus)
+    testTriBiInv(400,16,dist=ham.linear)
     t1=time.time()
     #check(16,16)
     print('Time needed: '+str(t1-t0))#,file=sys.stderr)

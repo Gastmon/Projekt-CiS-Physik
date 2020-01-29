@@ -37,16 +37,17 @@ def inversePowerMethod(A, alpha, iterations=-1, rtol=1.1102230246251565e-16, ato
     k = 0
     while(k!=iterations):
         k += 1
-        #print(k)
-        E = float(v.T * A * v)
-        temp = np.matrix(splinalg.spsolve(A-alpha*sp.identity(m),v)).T
-        if np.allclose(temp, E*v, rtol=rtol, atol=atol):
-            return E, temp / np.linalg.norm(temp)
-        v = temp / np.linalg.norm(temp)
-    E1=complex(v.H * A * v)
+        temp = float(v.T*A*v)
+        v = np.matrix(splinalg.spsolve(A-alpha*sp.identity(m),v)).T
+        v = v/np.linalg.norm(v)
+        E = float(v.T*A*v)
+        if np.isclose(temp, E, rtol=rtol, atol=atol):
+            print('Iterations needed: '+str(k))
+            return E, v
+    E1=float(v.H * A * v)
     v = A * v
     v = v / np.linalg.norm(v)
-    E2=complex(v.H * A * v)
+    E2=float(v.H * A * v)
     print('Absolute Error: '+str(abs(E2-E1)))
     print('Relative Error: '+str(abs(E2-E1)/abs(E2)))
     return (E2,v)
