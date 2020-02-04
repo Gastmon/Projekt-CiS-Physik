@@ -37,14 +37,14 @@ def hamiltonian(V,k,dx=None,dy=None,sparse=False):
         return H
 
 
-def nullPotential(x,y,radial=False):
+def nullPotential(x,y,z=0,radial=False):
     return 0
 
-def coloumbPotential(x,y,radial=False):
+def coloumbPotential(x,y,z=0,radial=False):
     if radial:
         r=x
     else:
-        r = math.hypot(x,y)
+        r = np.linalg.norm((x,y,z))
     return -2*const.m_e/const.hbar**2/(4*const.pi*const.epsilon_0)*const.e**2/r
 
 
@@ -96,6 +96,53 @@ def hamiltonianWithDistribution(V,k,i,dxDist=linear,dyDist=linear,sparse=False):
             H[i,i-k]-=1/dyl/dyg
         
         H[i,i]+=1/dxl/dxg+1/dxr/dxg+1/dyl/dyg+1/dyr/dyg+V(dxDist(i%k),dyDist(i//k))
+    
+    H=H*const.hbar**2/2/const.m_e/const.eV
+    
+    if sparse:
+        return H.tocsc()
+    else:
+        return H
+        
+def cartesian3D(V,k,i,dxDist=linear,dyDist=linear,dzDist=linear,sparse=True):
+    dxDist = cumulativeDistributionGenerator(dxDist, i/2*const.value('Bohr radius'), k/2-1/2)
+    dyDist = cumulativeDistributionGenerator(dyDist, i/2*const.value('Bohr radius'), k/2-1/2)
+    dzDist = cumulativeDistributionGenerator(dyDist, i/2*const.value('Bohr radius'), k/2-1/2)
+        
+    if sparse:
+        H = sp.lil_matrix((k**3,k**3))
+    else:
+        H = np.matrix(np.zeros((k**3,k**3)))
+    
+    for i in range(k**3):
+        m = i%k
+        n = (i//k)%k
+        o = (i//k**2)
+        dxr = dxDist(m+1)-dxDist(m)
+        dxl = dxDist(m)-dxDist(m-1)
+        dxg = (dxl+dxr)/2
+        dyr = dyDist(n+1)-dyDist(n)
+        dyl = dyDist(n)-dyDist(n-1)
+        dyg = (dyl+dyr)/2
+        dzr = dyDist(o+1)-dyDist(o)
+        dzl = dyDist(o)-dyDist(o-1)
+        dzg = (dzl+dzr)/2
+        if m!=k-1:
+            H[i,i+1]-=1/dxr/dxg
+        if m!=0:
+            H[i,i-1]-=1/dxl/dxg
+        if n!=k-1:
+            H[i,i+k]-=1/dyr/dyg
+        if n!=0:
+            H[i,i-k]-=1/dyl/dyg
+        if o!=k-1:
+            H[i,i+k**2]-=1/dzr/dzg
+        if o!=0:
+            H[i,i-k**2]-=1/dzl/dzg
+        
+            
+        
+        H[i,i]+=1/dxl/dxg+1/dxr/dxg+1/dyl/dyg+1/dyr/dyg+1/dzl/dzg+1/dzr/dzg +V(dxDist(m),dyDist(n),dzDist(o))
     
     H=H*const.hbar**2/2/const.m_e/const.eV
     
