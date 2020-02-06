@@ -1,0 +1,41 @@
+check(80,32):                75.43048667907715          -33.633593479833294
+check(80,32,True):            0.5663862228393555        -33.63359347983336
+check(256,32,True):          30.773494243621826         -44.812254255949725
+check(256,128,True):          7.5880820751190186        -30.93540996290981
+check(256,256,True):          5.462568044662476         -22.144939111189295
+check(256,1024,True):         4.115501642227173         - 8.155803390412817
+check(512,64,True):         230.21116471290588          -44.81225425594897
+check(514,63,True):         155.8796603679657           -44.95318790174972
+check(256,64,True,16):      107.18344211578369          -38.80214127878153
+check(256,64,True):          16.96039080619812          -38.8021412787815
+check(512,64,True):         229.57393860816956          -44.81225425594897
+check(512,16,True):         644.8119230270386           -51.37900725623256
+check(512,16,True,1):        58.8849093914032           -51.37900725622762
+check(1024,16,True,1):      705.2253654003143           -52.80970540838511
+
+student@bibnote34:~/Schreibtisch/CiS Project/Projekt-CiS-Physik$ python3 test.py
+check(k=64, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -6.216788358903987e-18	E_n(eV): -38.80214127578404
+Time needed: 0.2460012435913086
+n: 0	E_n(J): -6.216788358903961e-18	E_n(eV): -38.802141275783875
+Time needed: 0.33527541160583496
+student@bibnote34:~/Schreibtisch/CiS Project/Projekt-CiS-Physik$ python3 test.py
+check(k=128, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -7.1797146093553e-18	E_n(eV): -44.81225425552845
+Time needed: 1.3283071517944336
+n: 0	E_n(J): -7.179714609355253e-18	E_n(eV): -44.81225425552816
+Time needed: 1.173992395401001
+student@bibnote34:~/Schreibtisch/CiS Project/Projekt-CiS-Physik$ python3 test.py
+check(k=512, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.231824422585139e-18	E_n(eV): -51.37900725623382
+Time needed: 105.87170314788818
+n: 0	E_n(J): -8.231824422584475e-18	E_n(eV): -51.37900725622968
+Time needed: 19.729065418243408
+student@bibnote34:~/Schreibtisch/CiS Project/Projekt-CiS-Physik$ python3 test.py
+check(k=1024, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.461047535665262e-18	E_n(eV): -52.80970540838678
+Time needed: 1355.7635896205902
+n: 0	E_n(J): -8.461047535666082e-18	E_n(eV): -52.80970540839189
+Time needed: 105.46555876731873
+student@bibnote34:~/Schreibtisch/CiS Project/Projekt-CiS-Physik$ 
+

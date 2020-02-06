@@ -1,0 +1,546 @@
+bisection(k=256, i=16, iterations=4096)
+n: 0	E_n(J): -7.828285958042805e-18	E_n(eV): -48.86031824714792
+Time needed: 21.56699824333191
+	Command being timed: "python3 test.py"
+	User time (seconds): 37.38
+	System time (seconds): 19.27
+	Percent of CPU this job got: 253%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:22.32
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 165836
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 58655
+	Voluntary context switches: 147
+	Involuntary context switches: 509091
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=256, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -7.828285958042588e-18	E_n(eV): -48.86031824714657
+Time needed: 12.108831644058228
+	Command being timed: "python3 test.py"
+	User time (seconds): 28.88
+	System time (seconds): 5.14
+	Percent of CPU this job got: 264%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:12.87
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 166208
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 61710
+	Voluntary context switches: 130
+	Involuntary context switches: 2188
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=512, i=16, iterations=11585)
+n: 0	E_n(J): -8.230971558534396e-18	E_n(eV): -51.37368409747797
+Time needed: 150.18799376487732
+	Command being timed: "python3 test.py"
+	User time (seconds): 340.29
+	System time (seconds): 174.96
+	Percent of CPU this job got: 341%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:30.89
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 426100
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 181944
+	Voluntary context switches: 161
+	Involuntary context switches: 135545
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=512, i=16, iterations=512)
+n: 0	E_n(J): -8.230971558534394e-18	E_n(eV): -51.37368409747796
+Time needed: 23.975183963775635
+	Command being timed: "python3 test.py"
+	User time (seconds): 33.27
+	System time (seconds): 8.23
+	Percent of CPU this job got: 168%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:24.69
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 425940
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 36
+	Minor (reclaiming a frame) page faults: 180723
+	Voluntary context switches: 172
+	Involuntary context switches: 988
+	Swaps: 0
+	File system inputs: 2944
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=512, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.230971558533912e-18	E_n(eV): -51.37368409747495
+Time needed: 110.49664902687073
+	Command being timed: "python3 test.py"
+	User time (seconds): 329.82
+	System time (seconds): 56.22
+	Percent of CPU this job got: 347%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:51.24
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 425356
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 191197
+	Voluntary context switches: 142
+	Involuntary context switches: 31755
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=1024, i=16, iterations=1024)
+n: 0	E_n(J): -8.460811244573802e-18	E_n(eV): -52.808230595383066
+Time needed: 120.45655965805054
+	Command being timed: "python3 test.py"
+	User time (seconds): 192.89
+	System time (seconds): 63.81
+	Percent of CPU this job got: 211%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:01.26
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1434464
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 244
+	Minor (reclaiming a frame) page faults: 679122
+	Voluntary context switches: 402
+	Involuntary context switches: 8262
+	Swaps: 0
+	File system inputs: 49424
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=1024, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.460811244574645e-18	E_n(eV): -52.80823059538832
+Time needed: 1326.7762019634247
+	Command being timed: "python3 test.py"
+	User time (seconds): 4292.76
+	System time (seconds): 749.51
+	Percent of CPU this job got: 379%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 22:07.79
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1466092
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 215
+	Minor (reclaiming a frame) page faults: 708407
+	Voluntary context switches: 1128
+	Involuntary context switches: 284239
+	Swaps: 0
+	File system inputs: 76760
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=500, i=16, iterations=500)
+n: 0	E_n(J): -8.220496131412572e-18	E_n(eV): -51.30830162349958
+Time needed: 23.267178773880005
+	Command being timed: "python3 test.py"
+	User time (seconds): 31.36
+	System time (seconds): 7.24
+	Percent of CPU this job got: 158%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:24.30
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 409492
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 111
+	Minor (reclaiming a frame) page faults: 173628
+	Voluntary context switches: 904
+	Involuntary context switches: 1861
+	Swaps: 0
+	File system inputs: 43720
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=500, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.220496131412714e-18	E_n(eV): -51.30830162350046
+Time needed: 87.22336006164551
+	Command being timed: "python3 test.py"
+	User time (seconds): 244.05
+	System time (seconds): 48.54
+	Percent of CPU this job got: 332%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:27.97
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 409088
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 183817
+	Voluntary context switches: 137
+	Involuntary context switches: 11704
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=600, i=16, iterations=600)
+n: 0	E_n(J): -8.296020672126468e-18	E_n(eV): -51.77968873359351
+Time needed: 34.39122414588928
+	Command being timed: "python3 test.py"
+	User time (seconds): 47.32
+	System time (seconds): 12.03
+	Percent of CPU this job got: 168%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:35.17
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 554464
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 241641
+	Voluntary context switches: 134
+	Involuntary context switches: 2055
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=600, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.296020672127195e-18	E_n(eV): -51.77968873359804
+Time needed: 155.45694518089294
+	Command being timed: "python3 test.py"
+	User time (seconds): 452.21
+	System time (seconds): 89.65
+	Percent of CPU this job got: 346%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 2:36.23
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 554832
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 255523
+	Voluntary context switches: 130
+	Involuntary context switches: 24715
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=700, i=16, iterations=700)
+n: 0	E_n(J): -8.351513753318995e-18	E_n(eV): -52.126049306280045
+Time needed: 49.16649627685547
+	Command being timed: "python3 test.py"
+	User time (seconds): 69.55
+	System time (seconds): 17.49
+	Percent of CPU this job got: 174%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:49.98
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 727684
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 321436
+	Voluntary context switches: 132
+	Involuntary context switches: 2478
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=700, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.35151375331844e-18	E_n(eV): -52.12604930627658
+Time needed: 272.7147705554962
+	Command being timed: "python3 test.py"
+	User time (seconds): 794.94
+	System time (seconds): 167.30
+	Percent of CPU this job got: 351%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:33.51
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 727944
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 341392
+	Voluntary context switches: 145
+	Involuntary context switches: 493887
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=800, i=16, iterations=800)
+n: 0	E_n(J): -8.394045970810303e-18	E_n(eV): -52.39151452989609
+Time needed: 65.88242816925049
+	Command being timed: "python3 test.py"
+	User time (seconds): 95.52
+	System time (seconds): 26.19
+	Percent of CPU this job got: 182%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:06.59
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 925540
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 413274
+	Voluntary context switches: 135
+	Involuntary context switches: 3480
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=800, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.394045970811472e-18	E_n(eV): -52.3915145299034
+Time needed: 435.463173866272
+	Command being timed: "python3 test.py"
+	User time (seconds): 1313.58
+	System time (seconds): 280.66
+	Percent of CPU this job got: 365%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:16.21
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 925816
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 440146
+	Voluntary context switches: 142
+	Involuntary context switches: 106642
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=900, i=16, iterations=900)
+n: 0	E_n(J): -8.42770137305552e-18	E_n(eV): -52.601575030144886
+Time needed: 82.86601281166077
+	Command being timed: "python3 test.py"
+	User time (seconds): 124.95
+	System time (seconds): 36.01
+	Percent of CPU this job got: 192%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:23.56
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1151212
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 520237
+	Voluntary context switches: 141
+	Involuntary context switches: 4419
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=900, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.427701373054955e-18	E_n(eV): -52.60157503014136
+Time needed: 695.2344257831573
+	Command being timed: "python3 test.py"
+	User time (seconds): 2138.04
+	System time (seconds): 451.00
+	Percent of CPU this job got: 372%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 11:35.98
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1152132
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 551853
+	Voluntary context switches: 148
+	Involuntary context switches: 133478
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=1000, i=16, iterations=1000)
+n: 0	E_n(J): -8.455006744911033e-18	E_n(eV): -52.77200175776671
+Time needed: 108.16310358047485
+	Command being timed: "python3 test.py"
+	User time (seconds): 167.01
+	System time (seconds): 51.57
+	Percent of CPU this job got: 200%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:48.88
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1401516
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 39
+	Minor (reclaiming a frame) page faults: 646703
+	Voluntary context switches: 181
+	Involuntary context switches: 8951
+	Swaps: 0
+	File system inputs: 5784
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+check(k=1000, i=16, sparse=True, numOfEV=1)
+n: 0	E_n(J): -8.455006744913412e-18	E_n(eV): -52.77200175778156
+Time needed: 979.6537752151489
+	Command being timed: "python3 test.py"
+	User time (seconds): 3026.98
+	System time (seconds): 650.43
+	Percent of CPU this job got: 374%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 16:20.65
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1402348
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 230
+	Minor (reclaiming a frame) page faults: 675846
+	Voluntary context switches: 1111
+	Involuntary context switches: 214338
+	Swaps: 0
+	File system inputs: 64032
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=2000, i=16, iterations=2000)
+n: 0	E_n(J): -8.582531895604279e-18	E_n(eV): -53.56795114959824
+Time needed: 1295.6238942146301
+	Command being timed: "python3 test.py"
+	User time (seconds): 1079.67
+	System time (seconds): 540.62
+	Percent of CPU this job got: 124%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 21:37.44
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3509128
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 4317367
+	Minor (reclaiming a frame) page faults: 13945019
+	Voluntary context switches: 4366347
+	Involuntary context switches: 252545
+	Swaps: 0
+	File system inputs: 68626928
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+bisection(k=2200, i=16, iterations=2200)
+n: 0	E_n(J): -8.59454380912297e-18	E_n(eV): -53.642923617444474
+Time needed: 4105.346930742264
+	Command being timed: "python3 test.py"
+	User time (seconds): 1571.31
+	System time (seconds): 1148.11
+	Percent of CPU this job got: 66%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:08:27
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3435300
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 20544156
+	Minor (reclaiming a frame) page faults: 60464307
+	Voluntary context switches: 20623290
+	Involuntary context switches: 421045
+	Swaps: 0
+	File system inputs: 187578648
+	File system outputs: 8
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
