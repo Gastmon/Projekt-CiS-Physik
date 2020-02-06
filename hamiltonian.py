@@ -42,11 +42,10 @@ def nullPotential(x,y,z=0,radial=False):
 
 def coloumbPotential(x,y,z=0,radial=False):
     if radial:
-        r=x
+        r = x
     else:
         r = np.linalg.norm((x,y,z))
     return -2*const.m_e/const.hbar**2/(4*const.pi*const.epsilon_0)*const.e**2/r
-
 
 def cumulativeDistributionGenerator(f,boundary,offset=0,maxInput=None):
     if maxInput==None:

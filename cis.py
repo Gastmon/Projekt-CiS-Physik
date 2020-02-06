@@ -2,6 +2,7 @@ import numpy as np
 import scipy.sparse as sp
 import scipy.sparse.linalg as splinalg
 import math
+import warnings
 
 #The power method repeatedly multiplies the matrix with a vector so that it converges to the eigenvector corresponding to the biggest eigenvalue
 #args: A quadratic matrix
@@ -105,7 +106,8 @@ def cyclicJacobiAlgorithm(A,iterations):
     for k in range(iterations):
         for p in range(m-1):
             for q in range(p+1,m):
-                A,V = jacobiStepIndex(A,V,p,q)
+                if A[p,q]!=0:
+                    A,V = jacobiStepIndex(A,V,p,q)
     return A.diagonal().T,V
 
 #One Jacobi-step implemented by changing matrix entries directly through indexing
@@ -115,6 +117,13 @@ def cyclicJacobiAlgorithm(A,iterations):
 #rets: a A after iteration
 #      v V after iteration
 def jacobiStepIndex(A,V,p=None,q=None):
+    #warnings.filterwarnings("ignore")
+    #g=100*A[p,q]
+    #eps=1.1102230246251565e-16
+    #if g<=eps*A[p,p] and g<=eps*A[q,q]:
+    #    A[p,q]=0.
+    #    A[q,p]=0.
+    #    return A,V
     (m,n) = A.shape
     if p==None or q==None:
         p,q = getMaxPivot(A)
@@ -124,7 +133,11 @@ def jacobiStepIndex(A,V,p=None,q=None):
         a=A.copy()
     v=V.copy()
     theta = (A[q,q]-A[p,p])/2/A[p,q]
-    t = np.sign(theta)/(np.abs(theta)+(theta**2+1)**0.5)
+    #np.seterr(all='warn')
+    if abs(theta)<10**150:
+        t = np.sign(theta)/(np.abs(theta)+(theta**2+1)**0.5)
+    else:
+        t = 1/2/theta
     c = 1/(t**2+1)**0.5
     s = t*c
     tau = s/(1+c)
@@ -299,9 +312,9 @@ def lanczos(A,k=0):
         b.append(np.linalg.norm(w))
         if b!=0:
             u=w/b[-1]
-        else:#Please don't happen
-            print('It happened')
-            return
+        else:
+            print('Termination at j='+str(j))
+            return a,b[:-1]
         w = A*u
         a.append(float(w.T*u))
         w = w-a[-1]*u-b[-1]*v
